@@ -62,7 +62,10 @@ table {
     border-collapse: collapse;
     margin-bottom: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
+    overflow-x: auto; 
+}
+table th, table td {
+    padding: 10px;
 }
 
 th, td {
@@ -147,3 +150,14 @@ tbody tr:hover {
     margin: 0;
     background-color: #f8f9fa;
 }
+
+@media (max-width: 768px) {
+    table {
+        box-shadow: none; /* Quitar la sombra en dispositivos móviles si es necesario */
+    }
+    table th, table td {
+        padding: 8px; /* Reducir el padding en celdas para dispositivos móviles */
+        font-size: 14px; /* Reducir el tamaño de fuente en celdas para dispositivos móviles */
+    }
+}
+
