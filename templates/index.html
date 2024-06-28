@@ -1,0 +1,49 @@
+{% extends "base.html" %} 
+{% block title %}Lista de tareas{% endblock %} 
+{% block content %}
+<svg height="121px" width="121px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path style="fill:#E07188;" d="M89.6,473.6V38.4C89.6,17.193,106.793,0,128,0h345.6v435.2H448L89.6,473.6z"></path> <polygon style="fill:#E02753;" points="280.32,0 280.32,453.165 448,435.2 473.6,435.2 473.6,0 "></polygon> <path style="fill:#F8F8F9;" d="M128,512c-21.207,0-38.4-17.193-38.4-38.4s17.193-38.4,38.4-38.4h345.6 c-21.207,0-38.4,17.193-38.4,38.4s17.193,38.4,38.4,38.4H128z"></path> <path style="fill:#EDEDED;" d="M435.2,473.6c0-21.207,17.193-38.4,38.4-38.4h-192V512h192C452.393,512,435.2,494.807,435.2,473.6z"></path> <path style="fill:#88888F;" d="M140.8,371.2H38.4v-38.4h102.4V371.2z M140.8,243.2H38.4v38.4h102.4V243.2z M140.8,153.6H38.4V192 h102.4V153.6z M140.8,64H38.4v38.4h102.4V64z"></path> </g></svg>
+<div class="agregador_tareas">
+    <h1>Lista de tareas! </h1>
+    <form action="{{request.path}}" method="post">
+        <label for="task">Agregar tarea:</label>
+        <input type="text" id="task" name="task">
+        <button type="submit">Agregar</button>
+    </form>
+</div>
+<div class="tareas_pendientes">
+    <h1>Tareas pendientes!</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Descripción</th>
+                <th>Fecha y Hora</th>
+                
+                <th>Completada</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tarea in tareas %}
+            <tr class="{{ 'completed' if tarea.completada else '' }}">
+                <td>{{ tarea.id }}</td>
+                <td>{{ tarea.descripcion }}</td>
+                <td>{{ tarea.fecha_creacion.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>
+                    <form action="{{ url_for('completar_tarea', tarea_id=tarea.id) }}" method="post" style="display:inline; aligne-items:center;">
+                        <button type="submit" class= "marcar"><svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect width="24" height="24" fill="white"></rect> <path d="M5 13.3636L8.03559 16.3204C8.42388 16.6986 9.04279 16.6986 9.43108 16.3204L19 7" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></button>
+                    </form>
+                </td>
+                <td>
+                    <form action="{{ url_for('eliminar_tarea', tarea_id=tarea.id) }}" method="post" style="display:inline;">
+                        <button type="submit" class = "marcar"><svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect width="24" height="24" fill="white"></rect> <path d="M7 17L16.8995 7.10051" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M7 7.00001L16.8995 16.8995" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></button>
+                    </form>
+                </td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{{msg}}
+{% endblock %}
