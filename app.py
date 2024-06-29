@@ -25,7 +25,6 @@ def completar_tarea(tarea_id):
     tarea = Tarea.query.get_or_404(tarea_id)
     tarea.completada = True
     tarea.fecha_finalizacion = datetime.utcnow()
-
     try:
         db.session.commit()
         return redirect('/')
@@ -44,7 +43,25 @@ def eliminar_tarea(tarea_id):
     except:
         
         return 'Hubo un problema eliminando la tarea'
-        
+@app.route('/editar/<int:tarea_id>', methods = ['GET','POST'])        
+def editar_tarea(tarea_id):
+    tarea = Tarea.query.get_or_404(tarea_id)
+
+    if request.method == 'POST':
+        nueva_descripcion = request.form.get('descripcion')
+
+        if nueva_descripcion:
+            tarea.descripcion = nueva_descripcion
+            try:
+                db.session.commit()
+                return redirect('/')
+            except:
+                return 'Hubo un problema actualizando la tarea'
+        else:
+            return 'La descripción no puede estar vacía'
+
+    return render_template('editar.html', tarea=tarea)
+    
 
 
 if __name__ == '__main__':
